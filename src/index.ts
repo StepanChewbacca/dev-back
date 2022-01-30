@@ -1,19 +1,16 @@
-const express = require('express');
-import {NextFunction, Request, Response} from 'express';
-require('./database/database');
-const httpConstants = require('http2').constants;
+import express, { NextFunction, Request, Response } from 'express';
+import * as imageRouter from './routers/routers';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as database from './database/database';
+import { IError } from './TS/interface';
 
-import imageRouter from "./routers/routers";
+const app = express();
 
+app.use('/images', imageRouter.default);
 
-const app = express()
+app.use((error: IError, req: Request, res: Response, next: NextFunction) => {
+  res.status(error.status).send(error);
+});
 
-app.use ('/images', imageRouter);
-
-app.use((error: Error, req:Request, res:Response) => {
-    res.status(httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR).send(error.message)
-})
-
-
-
-app.listen(8080, () => console.log("listening on port 8080"))
+// eslint-disable-next-line no-console
+app.listen(8081, () => console.log('listening on port 8080'));

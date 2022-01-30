@@ -1,30 +1,35 @@
-import {NextFunction, Request, Response} from "express";
-const  { IRequest } = require ('../TS/interface')
-const mailer = require('../services/mailer');
-const imageRepository = require('../database/repository/imageRepository')
-const { uploadFile } = require('../services/s3')
+import { NextFunction, Response, Request } from 'express';
+import { constants as httpConstants } from 'http2';
+import { sendEmail } from '../services/mailer';
+import { getImage, setImage } from '../database/repository/imageRepository';
+import { getFileStream } from '../services/s3';
 
+export const setImageToS3 = async (req: Request, res: Response, next: NextFunction) => {
+  const { files } = req;
+  const { result, error } = await sendEmail(files[0]);
 
-export const imageController = async (req:Request, res:Response, next: NextFunction) => {
-    try {
-        const file = (<typeof IRequest>req).file;
-        const imageData = await uploadFile(file);
-        const { result, error } = await mailer.sendEmail(imageData);
-        if (error) {
-            throw new Error(error)
-        }
-        const { error: dbError } = await imageRepository.setImage(req.body.name, result.data.Location);
-        if (dbError) {
-            throw new Error(dbError)
-        }
-        res.status(result.status)
-        res.send(result.data);
-    } catch (e) {
-        next(e);
-    }
+  if (error) {
+    return next(error);
+  }
 
+  const {
+    error: dbError,
+    result: dbResult,
+  } = await setImage(req.body.name, result.data.location, result.data.key);
+
+  if (dbError) {
+    return next(dbError);
+  }
+
+  res.status(dbResult.status);
+  res.send(dbResult.data);
 };
 
-module.exports = {
-    imageController
-}
+export const getImageFromS3 = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  const { id } = req.params;
+  const imageData = await getImage(id);
+  const image = getFileStream(imageData.result.key);
+
+  res.status(httpConstants.HTTP_STATUS_OK);
+  image.pipe(res);
+};

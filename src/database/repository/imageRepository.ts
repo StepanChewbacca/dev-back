@@ -1,18 +1,29 @@
-const pgClient = require('../database');
+import { constants as httpConstants } from 'http2';
+import { pgClient } from '../database';
 
-const setImage = async (name: string, url: string) => {
-    try {
+export const setImage = async (name: string, url: string, key: string) => {
+  try {
+    const images = await pgClient.query(
+      `INSERT INTO images
+                            (name, url, key)
+                            VALUES('${name}', '${url}', '${key}') RETURNING *`,
+    );
 
-        const images = await pgClient.query(
-            `INSERT INTO images
-                            ("name", url)
-                            VALUES('${name}', '${url}');
-`);
-
-        return { result: images.rows };
-    } catch (error) {
-        return { error };
-    }
+    return { result: { data: images.rows, status: httpConstants.HTTP_STATUS_CREATED } };
+  } catch (error) {
+    return { error: { message: error.message, status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR } };
+  }
 };
 
-module.exports = { setImage };
+export const getImage = async (id: string) => {
+  try {
+    const image = await pgClient.query(
+      `SELECT * FROM images
+                      WHERE id = ${id}`,
+    );
+
+    return { result: image.rows[0] };
+  } catch (error) {
+    return { error };
+  }
+};

@@ -1,30 +1,58 @@
-require('dotenv').config()
-const fs = require('fs')
-const AWS = require('aws-sdk');
-import { TFiles } from '../TS/interface'
-const bucketName = process.env.BUCKET_NAME
-const region = process.env.AWS_REGION
-const accessKeyId =  process.env.AWS_ACCESS_KEY
-const secretAccessKey = process.env.AWS_SECRET_KEY
+import dotenv from 'dotenv';
+import AWS from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
+import * as path from 'path';
 
-const s3 = new AWS.S3({
-    region,
-    accessKeyId,
-    secretAccessKey,
-})
+dotenv.config();
 
-function uploadFile(file: TFiles) {
-    try {
-        const fileStream = fs.createReadStream(file.path)
-        const uploadParams = {
-            Bucket: bucketName,
-            Body: fileStream,
-            Key: file.filename,
-            //ACL:'public-read'
-        }
-        return s3.upload(uploadParams).promise()
-    } catch (e) {
-       return e
+const bucketName = process.env.BUCKET_NAME;
+const region = process.env.AWS_REGION;
+const accessKeyId = process.env.AWS_ACCESS_KEY;
+const secretAccessKey = process.env.AWS_SECRET_KEY;
+
+const s3Config = new AWS.S3({
+  region,
+  accessKeyId,
+  secretAccessKey,
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb({ message: 'Plz download correct image', status: 400 });
+  }
+};
+
+const multerS3Config = multerS3({
+  s3: s3Config,
+  bucket: bucketName,
+  key(req, file, cb) {
+    cb(null, `${(Math.random() * (1000000))}-${file.originalname}`);
+  },
+});
+
+export const uploadToS3 = (req, res, next) => {
+  const upload = multer({
+    storage: multerS3Config,
+    fileFilter,
+  }).array('image', 1);
+
+  upload(req, res, (err) => {
+    if (err) {
+      next({ message: err.message, status: 400 });
+    } else {
+      next();
     }
-}
-exports.uploadFile = uploadFile
+  });
+};
+
+export const getFileStream = (fileKey: string) => {
+  const downloadParams = {
+    Key: fileKey,
+    Bucket: bucketName,
+  };
+
+  return s3Config.getObject(downloadParams).createReadStream();
+};

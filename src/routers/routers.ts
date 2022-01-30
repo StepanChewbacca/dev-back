@@ -1,11 +1,14 @@
-const express = require('express');
-const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
-const { imageController } = require ('../Controllers/imageController')
-const { checkImage }  = require('../middlewares/image')
+import { Router } from 'express';
 
-const router = express.Router();
+import { setImageToS3, getImageFromS3 } from '../Controllers/imageController';
+//import { checkImage } from '../middlewares/image';
 
-router.post('/',  upload.single('image'), checkImage, imageController);
+import { uploadToS3 } from '../services/s3';
+
+const router = Router();
+
+router
+  .post('/', uploadToS3, setImageToS3)
+  .get('/:id', getImageFromS3);
 
 export default router;

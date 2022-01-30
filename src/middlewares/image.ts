@@ -1,18 +1,12 @@
-import {Request, Response, NextFunction} from "express";
-import {IRequest, TFiles} from "../TS/interface";
+import { Response, NextFunction, Request } from 'express';
 
-const checkImage = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const file: TFiles = (<IRequest>req).file
-        const mimetype: string = file.mimetype
-        if (!file || (!mimetype.endsWith('image/png') && !mimetype.endsWith('image/jpg')))
-            throw new Error('Plz upload current file');
-        next()
-    } catch (err) {
-        next(err);
-    }
-}
+export const checkImage = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+  //console.log(req.file)
+  const { file } = req;
 
-module.exports = {
-    checkImage
-}
+  if (!file || (!file.mimetype.endsWith('image/png') && !file.mimetype.endsWith('image/jpg'))) {
+    return next({ message: 'Plz upload current file', status: 400 });
+  }
+
+  next();
+};
