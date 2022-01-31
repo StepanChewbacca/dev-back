@@ -11,7 +11,7 @@ module.exports = {
       user: 'chewie',
       host: '34.118.65.200',
       ref: 'origin/prac1',
-      repo: 'https://github.com/StepanChewbacca/dev-back',
+      repo: 'https://github.com/StepanChewbacca/dev-back/src',
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
