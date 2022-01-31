@@ -1,14 +1,15 @@
 import { Router } from 'express';
 
-import { setImageToS3, getImageFromS3 } from '../Controllers/imageController';
-//import { checkImage } from '../middlewares/image';
-
+import { imageController, getImageFromSaveLocation } from '../Controllers/imageController';
+import { uploadToServer } from '../services/uploadToServer';
 import { uploadToS3 } from '../services/s3';
 
 const router = Router();
 
 router
-  .post('/', uploadToS3, setImageToS3)
-  .get('/:id', getImageFromS3);
+  .post('/uploadToS3', uploadToS3, imageController)
+  .post('/uploadToServer', uploadToServer, imageController)
+  .get('/download/:id', getImageFromSaveLocation);
 
 export default router;
+

@@ -41,7 +41,9 @@ export type TImageData = {
     serverSideEncryption: string | null,
     location: string,
     etag: string,
-    versionId: string | undefined
+    versionId: string | undefined,
+    path: string,
+    filename: string
 
 };
 

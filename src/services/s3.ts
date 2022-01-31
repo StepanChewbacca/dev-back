@@ -17,7 +17,7 @@ const s3Config = new AWS.S3({
   secretAccessKey,
 });
 
-const fileFilter = (req, file, cb) => {
+export const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
     cb(null, true);
   } else {
@@ -29,7 +29,7 @@ const multerS3Config = multerS3({
   s3: s3Config,
   bucket: bucketName,
   key(req, file, cb) {
-    cb(null, `${(Math.random() * (1000000))}-${file.originalname}`);
+    cb(null, `${file.originalname}-${Date.now()}`);
   },
 });
 

@@ -15,10 +15,10 @@ export const sendEmail = async (file: TImageData): Promise<IMailer> => {
       from: 'miha1488plet@gmail.com',
       subject: 'Image Upload',
       text: 'Image Upload',
-      html: `url: ${file.location}`,
+      html: `url: ${file.location || file.path}`,
     };
 
-    await sendGrid.send(emailMessage);
+    console.log(await sendGrid.send(emailMessage));
 
     return { result: { data: file, status: httpConstants.HTTP_STATUS_CREATED } };
   } catch (error) {

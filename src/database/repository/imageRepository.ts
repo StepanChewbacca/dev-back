@@ -1,12 +1,12 @@
 import { constants as httpConstants } from 'http2';
 import { pgClient } from '../database';
 
-export const setImage = async (name: string, url: string, key: string) => {
+export const setImage = async (name: string, url: string, key: string, save_type: string) => {
   try {
     const images = await pgClient.query(
       `INSERT INTO images
-                            (name, url, key)
-                            VALUES('${name}', '${url}', '${key}') RETURNING *`,
+                            (name, url, key, save_type)
+                            VALUES('${name}', '${url}', '${key}', '${save_type}' ) RETURNING *`,
     );
 
     return { result: { data: images.rows, status: httpConstants.HTTP_STATUS_CREATED } };
@@ -21,6 +21,7 @@ export const getImage = async (id: string) => {
       `SELECT * FROM images
                       WHERE id = ${id}`,
     );
+    console.log(image)
 
     return { result: image.rows[0] };
   } catch (error) {
