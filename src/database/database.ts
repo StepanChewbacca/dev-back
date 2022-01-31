@@ -1,7 +1,7 @@
 import { Client } from 'pg';
 
 export const pgClient = new Client({
-  user: 'postgres',
+  user: 'chewie',
   host: 'localhost',
   database: 'postgres',
   password: '12345678',
