@@ -16,7 +16,7 @@ module.exports = {
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
-      'post-deploy': 'npm install',
+      'post-deploy': 'npm install && npm install pm2 && start ts-node -- -P tsconfig.json index.ts',
     },
   },
 };
