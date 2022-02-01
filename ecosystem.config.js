@@ -23,7 +23,8 @@ module.exports = {
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
-      'post-deploy': 'npm i && npm install pm2 && pm2 startOrRestart ecosystem.config.js --env production ',
+      'post-deploy': 'npm install pm2 && npm i aws-sdk &&'
+          + ' pm2 startOrRestart ecosystem.config.js --env production ',
     },
   },
 };
