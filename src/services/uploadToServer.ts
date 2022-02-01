@@ -1,30 +1,32 @@
 import multer from 'multer';
+import { NextFunction, Response, Request } from 'express';
 
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/png'
         || file.mimetype === 'image/jpg'
         || file.mimetype === 'image/jpeg') {
-    throw new Error('Invalid Message');
+    cb(null, true);
   } else {
-    cb(null, false);
+    cb({ message: 'Upload current image', status: 400 });
+
   }
 };
 
-export const uploadToServer = (req, res, next) => {
-  if (req.files) {
-    const upload = multer({
-      dest: 'uploads/',
-      fileFilter,
-    }).array('image', 1);
+export const uploadToServer = (req: Request, res: Response, next: NextFunction) => {
+  const upload = multer({
+    dest: 'uploads/',
+    fileFilter,
+  }).array('image', 1);
 
-    upload(req, res, (err) => {
-      if (err) {
-        next({ message: err.message, status: 400 });
-      } else {
-        next();
-      }
-    });
+  if (!req.file) {
+    return next({ message: 'Upload current image', status: 400 });
   }
 
-  next({ message: 'Plz upload current image', status: 400 });
+  upload(req, res, (err) => {
+    if (err) {
+      next({ message: err.message, status: 400 });
+    } else {
+      next();
+    }
+  });
 };

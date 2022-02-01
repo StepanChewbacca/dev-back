@@ -8,6 +8,7 @@ module.exports = {
 
   deploy: {
     production: {
+      key: '/home/student/.ssh/server_google_rsa',
       user: 'chewie',
       host: '34.118.65.200',
       ref: 'origin/prac1',
