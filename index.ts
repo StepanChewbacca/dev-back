@@ -1,8 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
-import * as imageRouter from './routers/routers';
+import * as imageRouter from './src/routers/routers';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as database from './database/database';
-import { IError } from './TS/interface';
+import * as database from './src/database/database';
+import { IError } from './src/TS/interface';
 
 const app = express();
 
@@ -13,4 +13,4 @@ app.use((error: IError, req: Request, res: Response, next: NextFunction) => {
 });
 
 // eslint-disable-next-line no-console
-app.listen(8086, () => console.log('listening on port 8085'));
+app.listen(8080, () => console.log('listening on port 8085'));
