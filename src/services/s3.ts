@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Request } from 'express';
 
 dotenv.config();
 
