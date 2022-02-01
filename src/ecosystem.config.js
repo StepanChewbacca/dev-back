@@ -4,7 +4,10 @@ module.exports = {
     script: 'pm2 start ts-node -- -P tsconfig.json index.ts',
     watch: '.',
     env: {
-      ...process.env,
+      COMMON_ENV_VAR: 'true',
+    },
+    env_production: {
+      NODE_ENV: 'production',
     },
   },
   ],
@@ -19,9 +22,9 @@ module.exports = {
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
-      'post-deploy': 'npm install && npm install pm2 &&'
+      'post-deploy': 'npm i && npm install pm2 &&'
           + ' pm2 start ts-node -- -P tsconfig.json index.ts pm2 startOrRestart'
-          + ' ecosystem.config.js -- env staging',
+          + ' ecosystem.config.js -- env production',
     },
   },
 };
