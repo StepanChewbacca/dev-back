@@ -23,7 +23,7 @@ module.exports = {
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
       'post-deploy': 'npm i && npm install pm2 &&'
-          + ' pm2 start ts-node -- -P tsconfig.json index.ts pm2 startOrRestart'
+          + ' pm2 startOrRestart'
           + ' ecosystem.config.js -- env production',
     },
   },

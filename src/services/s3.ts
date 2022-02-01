@@ -4,7 +4,7 @@ import multer from 'multer';
 import multerS3 from 'multer-s3';
 import { NextFunction, Request } from 'express';
 
-dotenv.config();
+dotenv.config({ path: './.env.production' });
 
 const bucketName = process.env.BUCKET_NAME;
 const region = process.env.AWS_REGION;
@@ -39,11 +39,11 @@ export const uploadToS3 = (req: Request, res, next: NextFunction) => {
     fileFilter,
   }).array('image', 1);
 
-  if (!req.file) {
-    return next({ message: 'Upload current image', status: 400 });
-  }
-
   upload(req, res, (err) => {
+    if (!req.files[0]) {
+      next({ message: 'Upload current image', status: 400 });
+    }
+
     if (err) {
       next({ message: err.message, status: 400 });
     } else {

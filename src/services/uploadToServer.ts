@@ -8,19 +8,14 @@ const fileFilter = (req, file, cb) => {
     cb(null, true);
   } else {
     cb({ message: 'Upload current image', status: 400 });
-
   }
 };
 
 export const uploadToServer = (req: Request, res: Response, next: NextFunction) => {
   const upload = multer({
-    dest: 'uploads/',
     fileFilter,
+    dest: 'uploads/',
   }).array('image', 1);
-
-  if (!req.file) {
-    return next({ message: 'Upload current image', status: 400 });
-  }
 
   upload(req, res, (err) => {
     if (err) {
