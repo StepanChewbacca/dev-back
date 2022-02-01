@@ -41,6 +41,10 @@ export const getImageFromSaveLocation = async (req: Request, res: Response, next
   const { id } = req.params;
   const { result, error: dbError } = await getImage(id);
 
+  if (!result) {
+    return next({ message: 'There is no image', status: httpConstants.HTTP_STATUS_NOT_FOUND });
+  }
+
   if (dbError) {
     return next(dbError);
   }
