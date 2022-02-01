@@ -3,7 +3,7 @@ module.exports = {
     name: 'server',
     script: 'pm2 start ts-node -- -P tsconfig.json index.ts',
     watch: '.',
-    env: {
+    env_production: {
       PORT: 8080,
       NODE_ENV: 'production',
     },
@@ -16,6 +16,9 @@ module.exports = {
       user: 'chewie',
       host: '34.118.65.200',
       ref: 'origin/prac1',
+      env: {
+        NODE_ENV: 'production',
+      },
       repo: 'https://github.com/StepanChewbacca/dev-back',
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
