@@ -3,12 +3,6 @@ module.exports = {
     name: 'server',
     script: 'pm2 start ts-node -- -P tsconfig.json index.ts',
     watch: '.',
-    env: {
-      COMMON_ENV_VAR: 'true',
-    },
-    env_production: {
-      NODE_ENV: 'production',
-    },
   },
   ],
 
