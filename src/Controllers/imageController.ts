@@ -39,7 +39,12 @@ export const imageController = async (req: Request, res: Response, next: NextFun
 
 export const getImageFromSaveLocation = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
-  const { result } = await getImage(id);
+  const { result, error: dbError } = await getImage(id);
+
+  if (dbError) {
+    return next(dbError);
+  }
+
   let saveType;
 
   switch (result.save_type) {

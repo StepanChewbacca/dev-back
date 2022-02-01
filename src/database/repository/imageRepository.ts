@@ -21,10 +21,9 @@ export const getImage = async (id: string) => {
       `SELECT * FROM images
                       WHERE id = ${id}`,
     );
-    console.log(image)
 
     return { result: image.rows[0] };
   } catch (error) {
-    return { error };
+    return { error: { message: error.message, status: httpConstants.HTTP_STATUS_INTERNAL_SERVER_ERROR } };
   }
 };
