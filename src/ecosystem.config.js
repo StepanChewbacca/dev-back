@@ -16,7 +16,7 @@ module.exports = {
       path: '/home/chewie/FirstDeploy',
       ssh_options: ['StrictHostKeyChecking=no', 'PasswordAuthentication=no'],
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
-      'post-deploy': 'npm i && npm install pm2 && pm2 ecosystem  && npm run start:dev',
+      'post-deploy': 'npm i && npm install pm2 ',
     },
   },
 };
