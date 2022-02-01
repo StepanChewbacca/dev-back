@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'server',
-    script: 'ts-node -- -P tsconfig.json index.ts',
+    script: 'index.ts',
     watch: '.',
     env_production: {
       PORT: 8080,
