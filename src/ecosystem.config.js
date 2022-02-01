@@ -24,8 +24,7 @@ module.exports = {
       'pre-setup': 'rm -rf /home/chewie/FirstDeploy',
       'post-deploy': 'npm install && npm install pm2 &&'
           + ' pm2 startOrRestart'
-          + ' ecosystem.config.js && pm2 save'
-          + '&& pm2 startup $$ npm install',
+          + ' ecosystem.config.js',
     },
   },
 };
