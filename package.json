@@ -6,6 +6,7 @@
   "dependencies": {
     "@sendgrid/mail": "^7.6.0",
     "aws-sdk": "^2.1066.0",
+    "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "multer": "^1.4.4",
@@ -16,6 +17,7 @@
     "pm2": "^5.1.2",
     "s3": "^2.0.0",
     "send": "^0.17.2",
+    "swagger-ui-express": "^4.3.0",
     "touch": "^3.1.0",
     "ts-node": "^10.4.0",
     "type-fest": "^0.20.2",

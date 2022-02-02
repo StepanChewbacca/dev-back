@@ -1,0 +1,185 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "version": "1.0.0",
+    "title": "Swagger Petstore",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:8090",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "images",
+      "description": "Everything about your Pets",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/images/uploadToServer": {
+      "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "description": "",
+        "operationId": "uploadFileServer",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "image name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "image to upload",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/uploadImageResponse"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "500": {
+            "description": "sql error"
+          }
+        },
+        "summary": "uploads an image",
+        "tags": [
+          "image"
+        ]
+      }
+    },
+    "/images/uploadToS3": {
+      "post": {
+        "tags": [
+          "image"
+        ],
+        "summary": "uploads an image",
+        "description": "",
+        "operationId": "uploadFileS3",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "image name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "image to upload",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/uploadImageResponse"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "500": {
+            "description": "sql error"
+          }
+        }
+      }
+    },
+    "/images/download/{id}": {
+      "get": {
+        "tags": [
+          "image"
+        ],
+        "summary": "get image by id",
+        "description": "",
+        "operationId": "getImageById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "image id ",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "400": {
+            "description": "bad request"
+          },
+          "500": {
+            "description": "sql error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "uploadImageResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number"
+        },
+        "name": {
+          "type": "string",
+          "example": "mars"
+        },
+        "url": {
+          "type": "string",
+          "example": "uploads/ec99bb900de86ecf305b2a5a85362f27"
+        },
+        "save_type": {
+          "type": "string",
+          "example": "server"
+        },
+        "key": {
+          "type": "string",
+          "example": "ec99bb900de86ecf305b2a5a85362f27"
+        }
+      }
+    }
+  }
+}

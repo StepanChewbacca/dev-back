@@ -10,9 +10,10 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "esModuleInterop":true,
     "jsx": "react",
-    "allowJs": true
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "src/node_modules"

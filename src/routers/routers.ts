@@ -12,5 +12,3 @@ router
   .get('/download/:id', getImageFromSaveLocation);
 
 export default router;
-
-
