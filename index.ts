@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import * as imageRouter from './src/routers/routers';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as database from './src/database/database';
+//import * as database from './src/database/database';
 import { IError } from './src/TS/interface';
 import swaggerDocument from './swagger/swagger.json';
 
@@ -25,4 +25,4 @@ app.use((error: IError, req: Request, res: Response, next: NextFunction) => {
 });
 
 // eslint-disable-next-line no-console
-app.listen(8080, () => console.log('listening on port 8090'));
+app.listen(8091, () => console.log('listening on port 8090'));
